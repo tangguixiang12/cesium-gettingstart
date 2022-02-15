@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>动力IT实训-CesiumJS从入门到精通-013</title>
+    <script src="../../libs/Cesium/Cesium.js"></script>
+    <link href="../../libs/Cesium/Widgets/widgets.css" rel="stylesheet">
+    <style>
+        html,
+        body {
+            margin: 0px;
+            padding: 0px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="puiedu-cesiumContainer"></div>
+    <script>
+        var esri = new Cesium.ArcGisMapServerImageryProvider({
+            url: 'https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer'
+        })
+        Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJkZDIzMmYwMy1hYTlmLTQxZWItODAyYy03MjAyMTc4YzVjOGYiLCJpZCI6NTc4MTAsImlhdCI6MTY0MTk2NjA2Nn0.ACfm4kMsXv_o3brMajCyqkORvh_6llBXF2BmD6UpRyw';
+        const viewer = new Cesium.Viewer('puiedu-cesiumContainer', {
+            baseLayerPicker: false,
+            imageryProvider: esri,
+            // infoBox:false,
+            terrainProvider: new Cesium.CesiumTerrainProvider({
+                url: Cesium.IonResource.fromAssetId(1),
+                requestVertexNormals: true,
+                requestWaterMask: true
+            })
+        });
+        viewer.camera.setView({
+            destination: Cesium.Cartesian3.fromDegrees(116.39, 39.91, 2500.0),
+            orientation: {
+                heading: Cesium.Math.toRadians(0),
+                pitch: Cesium.Math.toRadians(-90.0),
+                roll: 0.0
+            }
+        });
+
+
+        const entity = viewer.entities.add({
+            id:'planeLogo',
+            position: new Cesium.Cartesian3.fromDegrees(116.39, 39.91, 0),
+            plane: {
+                plane: new Cesium.Plane(Cesium.Cartesian3.UNIT_Z, 0.0),
+                dimensions: new Cesium.Cartesian2(400, 300),
+                material: "../../libs/image/dlitsx.png",
+                outline: true,
+                outlineColor: Cesium.Color.BLACK,
+            },    
+            description:`<div>
+                <img width="100%" height="300px" src="../../libs/image/dlitsx.png">
+                <h3>动力IT实训</h3>
+                <h3>欢迎加入</h3>
+                </div>`
+        })
+
+        var handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
+        handler.setInputAction(function (movement){
+            var pick = viewer.scene.pick(movement.position);
+            if(Cesium.defined(pick) && (pick.id.id === 'planeLogo')){dsa
+                alert('欢迎加入动力IT')
+            }
+        },Cesium.ScreenSpaceEventType.LEFT_CLICK);
+
+
+        //scene.pick scene.drillpick Globe.pick
+
+        //Cesium.ScreenSpaceEventType.MIDDLE_CLICK  Cesium.ScreenSpaceEventType.MOUSE_MOVE  Cesium.ScreenSpaceEventType.RIGHT_CLICK
+
+    
+
+     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>

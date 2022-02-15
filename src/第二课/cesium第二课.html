@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>动力IT实训-CesiumJS从入门到精通-002</title>
+    <script src="../../libs/Cesium/Cesium.js"></script>
+    <link href="../../libs/Cesium/Widgets/widgets.css" rel="stylesheet">
+    <style>
+        html,
+        body {
+            margin: 0px;
+            padding: 0px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="puiedu-cesiumContainer"></div>
+    <script>
+        //Viewer Scene Entity DataSourceCollection
+        //new Cesium.Viewer(cesiumContainer,option) 
+        Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJkZDIzMmYwMy1hYTlmLTQxZWItODAyYy03MjAyMTc4YzVjOGYiLCJpZCI6NTc4MTAsImlhdCI6MTY0MTk2NjA2Nn0.ACfm4kMsXv_o3brMajCyqkORvh_6llBXF2BmD6UpRyw';
+        const viewer = new Cesium.Viewer('puiedu-cesiumContainer',{
+            animation:false,
+            timeline:false
+        });
+        viewer.scene.globe.show = true;
+        console.log(viewer.imgerLaters == viewer.scene.imgerLaters);
+        const entity = viewer.entities.add({
+            position:Cesium.Cartesian3.fromDegrees(116.39,39.91,400),
+            point:{
+                pixelSize:100,
+                color:new Cesium.Color(0,1,0,1)
+            }
+        })
+        viewer.trackedEntity = entity;
+    </script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>动力IT实训-CesiumJS从入门到精通-014</title>
+    <script src="../../libs/Cesium/Cesium.js"></script>
+    <link href="../../libs/Cesium/Widgets/widgets.css" rel="stylesheet">
+    <style>
+        html,
+        body {
+            margin: 0px;
+            padding: 0px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="puiedu-cesiumContainer"></div>
+    <script>
+        var esri = new Cesium.ArcGisMapServerImageryProvider({
+            url: 'https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer'
+        })
+        Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJkZDIzMmYwMy1hYTlmLTQxZWItODAyYy03MjAyMTc4YzVjOGYiLCJpZCI6NTc4MTAsImlhdCI6MTY0MTk2NjA2Nn0.ACfm4kMsXv_o3brMajCyqkORvh_6llBXF2BmD6UpRyw';
+        const viewer = new Cesium.Viewer('puiedu-cesiumContainer', {
+            baseLayerPicker: false,
+            imageryProvider: esri,
+            // infoBox:false,
+            terrainProvider: new Cesium.CesiumTerrainProvider({
+                url: Cesium.IonResource.fromAssetId(1),
+                requestVertexNormals: true,
+                requestWaterMask: true
+            })
+        });
+
+        var tileset = viewer.scene.primitives.add(
+            new Cesium.Cesium3DTileset({
+                url: "../../libs/TilesetWithDiscreteLOD/tileset.json",
+                maximumScreenSpaceError: 2, //最大的屏幕空间误差
+                maximumNumberOfLoadedTiles: 1000, //最大加载瓦片个数
+            })
+        );
+
+        tileset.readyPromise.then(function () {
+            var boundingSphere = tileset.boundingSphere;
+            viewer.camera.viewBoundingSphere(boundingSphere, new Cesium.HeadingPitchRange(0.0, -0.5, boundingSphere.radius));
+            viewer.camera.lookAtTransform(Cesium.Matrix4.IDENTITY);
+        }).otherwise(function (error) {
+            throw (error);
+        });
+
+
+    </script>
+</body>
+
+</html>
